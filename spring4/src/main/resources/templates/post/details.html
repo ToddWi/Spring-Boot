@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+   
+    <main layout:fragment="main">
+        <div class="my-2 card">
+            <div class="card-header text-center">
+                <h1>포스트 상세보기</h1>
+            </div>
+                <form>
+                    <div class="my-2 card">
+                        <label for="id">번호</label>
+                        <input id="id" th:value= "${post.id}" readonly/>
+                    </div>
+                    <div class="my-2 card">
+                        <label for="title">제목</label>
+                        <input id="title" th:value="${post.title}" readonly />
+                    </div>
+                    <div class="my-2 card">
+                        <label for="content">내용</label>
+                        <textarea id="content" th:text="${post.content}" readonly></textarea>
+                    </div>
+                    <div class="my-2 card">
+                        <label for="author">작성자</label>
+                        <input id="author" th:value="${post.author}" readonly/>
+                    </div>
+                    <div class="my-2 card">
+                        <label for="createdTime">작성시간</label>
+                        <input id="createdTime"
+                            th:value="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss')}" 
+                            readonly/>
+                    </div>
+                    <div class="my-2 card">
+                        <label for="modifiedTime">수정시간</label>
+                        <input id="modifiedTime"
+                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss')}" />
+                    </div>
+                </form>
+                <div>
+                    <a class="btn btn-outline-primary"
+                        th:href="@{ /post/modify?id={id} (id=${post.id}) }">수정하기</a>
+                </div>
+        </div>
+    </main>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/base_layout}">
+	
+    <main layout:fragment="main">
+        <div class="my-2 card">
+            <div class="card-header text-center">
+                <h1>포스트 목록 페이지</h1>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>수정시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 밑에서 post는 html 안에서 사용할 변수, posts는 controller에 선언한 모델 변수 이름 -->
+                        <tr th:each="post : ${posts}">
+                            <td th:text="${post.id}"></td>
+                            
+                            <td>
+                                    <a th:href="@{/post/details?id={val} (val = ${post.id}) }"  
+                                        th:text="${post.title}"> </a>
+                                    </td>
+                            <td th:text="${post.author}"></td>
+                            <td th:text="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss') }"></td>
+                        </tr>
+                        <!-- 위에서 post.변수명은 entity class에서 선언한 변수명과 일치하게 입력해야함 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    
+</html>
