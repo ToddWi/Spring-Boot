@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
    const btnDelete = document.querySelector('button#btnDelete');
    const btnUpdate = document.querySelector('button#btnUpdate');
    
-   const modifyForm = document.querySelector('#postModifyForm');
+   const postModifyForm = document.querySelector('#postModifyForm');
    
     
     btnDelete.addEventListener('click', () => {
@@ -22,21 +22,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     
-    btnUpdate.addEventListener('click', () => {
-       
-       const title = document.querySelector('input#title').value;
-       const content = document.querySelector('textarea#content').value;
-       if(title === '' || content === '') {
-            alert("제목과 내용은 반드시 입력");
-            return; // 함수 종료
+    btnUpdate.addEventListener('click', (e) => {
+        const title = document.querySelector('#title').value;
+        const content = document.querySelector('#content').value;
+        if (title === '' || content === '') {
+            alert('제목과 내용은 반드시 입력...');
+            return;
         }
-        const check = confirm('업데이트할까요?');
         
-        if(check) {
-            modifyForm.action = './update';
-            modifyForm.method = 'post';
-            modifyForm.submit();
+        const result = confirm('변경된 내용을 업데이트할까요?')
+        if (!result) {
+            return;
         }
-       //포스트 업뎃 
+        
+        postModifyForm.action = '/post/update';
+        postModifyForm.method = 'post';
+        postModifyForm.submit();
+        
     });
 });

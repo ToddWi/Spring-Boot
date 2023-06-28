@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itwill.spring4.dto.PostCreateDto;
+import com.itwill.spring4.dto.PostSearchDto;
 import com.itwill.spring4.dto.PostUpdateDto;
 import com.itwill.spring4.repository.post.Post;
+import com.itwill.spring4.repository.reply.Reply;
 import com.itwill.spring4.service.PostService;
+import com.itwill.spring4.service.ReplyService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class PostController {
     
+    private final ReplyService replyService;
     private final PostService postService;
     
     @GetMapping
@@ -71,8 +75,12 @@ public class PostController {
         // TODO: POSTS 테이블에서 id에 해당하는 포스트를 검색.
         Post post = postService.read(id);
         
-        // 결과를 model에 저장.
+        // 검색 결과를 model에 저장해서 뷰로 전달.
         model.addAttribute("post", post);
+        
+        // REPLIES 테이블에서 해당 포스트에 달린 댓글 개수를 검색.
+        List<Reply> replyList = replyService.read(post);
+        model.addAttribute("replyCount", replyList.size());
 
         // 컨트롤러 메서드의 리턴값이 없는 경우(void인 경우), 뷰의 이름은 요청주소와 같다.
         // details => details.html, modify => modify.html
@@ -93,7 +101,20 @@ public class PostController {
         log.info("update(dto={})", dto);
         
         postService.update(dto);
-        return "redirect:/post";
+        
+        return "redirect:/post/details?id=" + dto.getId();
+        
     }
     
+    @GetMapping("/search")
+    public String search(PostSearchDto dto, Model model) {
+        log.info("search(dto={})", dto);
+        
+        // postService의 검색 기능 호출:
+        List<Post> list = postService.search(dto);
+        // 검색 결과를 Model에 저장해서 뷰로 전달:
+        model.addAttribute("posts",list); // 위 read 메서드에서 posts로 변수를 지어줬으니 여기서도 posts로 지어줌.
+        
+        return "/post/read";
+    }
 }

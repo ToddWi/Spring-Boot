@@ -41,6 +41,17 @@
                     <a class="btn btn-outline-primary"
                         th:href="@{ /post/modify?id={id} (id=${post.id}) }">수정하기</a>
                 </div>
-        </div>
-    </main>
-</html>
+                
+                <div class="my-2 card">
+                    <div class="card-header">
+                        <span>댓글</span>
+                        <span id="replyCount" th:text="${replyCount}">댓글 개수</span>개
+                        <button class="btn" id="btnToggleReply">보이기</button>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+    </html>

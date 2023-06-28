@@ -23,17 +23,16 @@
                     </div>
                     <div class="my-2 card">
                         <label for="author">작성자</label>
-                        <input id="author" name="author" th:value="${post.author}" readonly/>
+                        <input id="author" th:value="${post.author}" readonly/>
                     </div>
                     
                 </form>
                 <div>
                     <button class="btn btn-outline-danger" id="btnDelete">삭제</button>
-                    <button class="btn btn-outline-success" id="btnUpdate">업데이트</button>
+                    <button class="btn btn-outline-success" id="btnUpdate">UPDATE</button>
                 </div>
         </div>
     </main>
-    
     <th:block layout:fragment="myscripts">
         <script src="/js/post/modify.js"></script>
     </th:block>
