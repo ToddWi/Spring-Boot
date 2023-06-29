@@ -1,57 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/base_layout}">
-   
-    <main layout:fragment="main">
+    layout:decorate="~{layout/base_layout}"
+>
+
+<main layout:fragment="main">
+    <div class="my-2 card">
+        <div class="card-header text-center">
+            <h1>포스트 상세보기</h1>
+        </div>
+        <form>
+            <div class="my-2 card">
+                <label for="id">번호</label> <input id="id"
+                    th:value="${post.id}" readonly
+                />
+            </div>
+            <div class="my-2 card">
+                <label for="title">제목</label> <input id="title"
+                    th:value="${post.title}" readonly
+                />
+            </div>
+            <div class="my-2 card">
+                <label for="content">내용</label>
+                <textarea id="content" th:text="${post.content}"
+                    readonly
+                ></textarea>
+            </div>
+            <div class="my-2 card">
+                <label for="author">작성자</label> <input id="author"
+                    th:value="${post.author}" readonly
+                />
+            </div>
+            <div class="my-2 card">
+                <label for="createdTime">작성시간</label> <input
+                    id="createdTime"
+                    th:value="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss')}"
+                    readonly
+                />
+            </div>
+            <div class="my-2 card">
+                <label for="modifiedTime">수정시간</label> <input
+                    id="modifiedTime"
+                    th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss')}"
+                />
+            </div>
+        </form>
+        <div>
+            <a class="btn btn-outline-primary"
+                th:href="@{ /post/modify?id={id} (id=${post.id}) }"
+            >수정하기</a>
+        </div>
+
         <div class="my-2 card">
-            <div class="card-header text-center">
-                <h1>포스트 상세보기</h1>
+            <div class="card-header">
+                <span>댓글</span> <span id="replyCount" th:text="${replyCount}">댓글 개수</span>개
+                <button class="btn" id="btnToggleReply">보이기</button>
             </div>
-                <form>
-                    <div class="my-2 card">
-                        <label for="id">번호</label>
-                        <input id="id" th:value= "${post.id}" readonly/>
+            <div class="card-body collapse" id="replyToggleDiv">
+                <div class="my-2 row">
+                    <div class="col-10">
+                        <textarea class="form-control" id="replyText"
+                            placeholder="댓글 내용 입력"></textarea>
                     </div>
-                    <div class="my-2 card">
-                        <label for="title">제목</label>
-                        <input id="title" th:value="${post.title}" readonly />
-                    </div>
-                    <div class="my-2 card">
-                        <label for="content">내용</label>
-                        <textarea id="content" th:text="${post.content}" readonly></textarea>
-                    </div>
-                    <div class="my-2 card">
-                        <label for="author">작성자</label>
-                        <input id="author" th:value="${post.author}" readonly/>
-                    </div>
-                    <div class="my-2 card">
-                        <label for="createdTime">작성시간</label>
-                        <input id="createdTime"
-                            th:value="${ #temporals.format(post.createdTime, 'yyyy-MM-dd HH:mm:ss')}" 
-                            readonly/>
-                    </div>
-                    <div class="my-2 card">
-                        <label for="modifiedTime">수정시간</label>
-                        <input id="modifiedTime"
-                            th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss')}" />
-                    </div>
-                </form>
-                <div>
-                    <a class="btn btn-outline-primary"
-                        th:href="@{ /post/modify?id={id} (id=${post.id}) }">수정하기</a>
-                </div>
-                
-                <div class="my-2 card">
-                    <div class="card-header">
-                        <span>댓글</span>
-                        <span id="replyCount" th:text="${replyCount}">댓글 개수</span>개
-                        <button class="btn" id="btnToggleReply">보이기</button>
-                    </div>
-                    <div class="card-body">
+                    <div class="col-2">
+                        <button class="form-control btn btn-outline-success"
+                        id="btnReplyCreate">등록</button>
                     </div>
                 </div>
-                
+                <!-- 댓글 목록을 보여줄 영역 -->
+                <div class="my-2 row" id="replies"></div>
             </div>
-        </main>
-    </html>
+        </div>
+    </div>
+</main>
+     <th:block layout:fragment="myscripts">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="/js/reply/reply.js"></script>
+     </th:block> 
+</html>

@@ -89,6 +89,7 @@ public class PostController {
     @PostMapping("/delete") 
     public String delete(Long id) {
         
+     // postService를 이용해서 DB 테이블에서 포스트를 삭제하는 서비스 호출
         postService.delete(id);
         log.info("delete={}", id);
         
@@ -101,6 +102,7 @@ public class PostController {
         log.info("update(dto={})", dto);
         
         postService.update(dto);
+        log.info("");
         
         return "redirect:/post/details?id=" + dto.getId();
         
