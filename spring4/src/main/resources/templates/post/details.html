@@ -41,7 +41,7 @@
             <div class="my-2 card">
                 <label for="modifiedTime">수정시간</label> <input
                     id="modifiedTime"
-                    th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss')}"
+                    th:value="${ #temporals.format(post.modifiedTime, 'yyyy-MM-dd HH:mm:ss')}" readonly
                 />
             </div>
         </form>

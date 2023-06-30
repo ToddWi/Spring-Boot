@@ -80,20 +80,17 @@ public class ReplyService {
     }
     
     @Transactional
-    public Reply update(ReplyUpdateDto dto) {
+    // DB에서 검색한 엔터티를 수정하면, 트랜잭션이 끝나는 시점에 update 쿼리가 자동으로 실행됨.
+    public void update(long id, ReplyUpdateDto dto) {
+        log.info("update(id={}, dto={}", id, dto);
         
-        Post post = postRepository.findById(dto.getPostId()).orElseThrow();
+        // 1. 댓글 아이디로 DB에서 엔터티를 검색(select):
+        Reply entity = replyRepository.findById(id).orElseThrow();
         
-        Reply entity = Reply.builder()
-                .post(post)
-                .writer(dto.getWriter())
-                .id(dto.getReplyId())
-                .replyText(dto.getTextAreaId())
-                .build();
-                
-        replyRepository.saveAndFlush(entity);
+        // 2. 검색한 엔터티의 프로퍼티를 수정:
+        entity.update(dto.getReplyText());
         
-        return entity;
+       
         
     }
     

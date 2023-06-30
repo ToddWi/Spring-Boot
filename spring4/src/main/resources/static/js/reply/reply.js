@@ -55,23 +55,30 @@ document.addEventListener('DOMContentLoaded', () => {
         //console.log(e.target); 
         const replyId = e.target.getAttribute(`data-id`);
         const textAreaId = `textarea#replyText_${replyId}`;
-        const postId = document.querySelector('input#id');
-        const writer = 'admin';
+        
+        
+        const replyText = document.querySelector(textAreaId).value;
+        if(replyText === '') {
+            alert('수정할 댓글 내용을 입력하세요.');
+            return;
+        }
         
        // console.log(document.querySelector(textAreaId));
        const result = confirm('수정할까요?');
        if(!result) {
            return;
        }
-       const reqUrl = `/api/reply/${replyId}`;
-       const data = {replyId, textAreaId, postId, writer};
+       const reqUrl = `/api/reply/${replyId}`; // 요청 주소
+       const data = {replyText}; // {replyText: replyText}, 요청 데이터(수정할 댓글 내용)
        
        axios
-        .put(reqUrl, data)
-        .then((response) => {})
-        .catch((error) => {
-            console.log(error)
+        .put(reqUrl, data) // put 방식의 Ajax 요청을 보냄.
+        .then((response) => { // 성공 응답일 때 동작할 콜백을 등록.
+            getRepliesWithPostId(); 
         })
+        .catch((error) =>  // 에러 응답일 때 동작할 콜백을 등록.
+            console.log(error)
+        );
     };
     
     const makeReplyElements = (data) => {//(2)

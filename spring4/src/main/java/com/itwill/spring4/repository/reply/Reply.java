@@ -1,5 +1,6 @@
 package com.itwill.spring4.repository.reply;
 
+import com.itwill.spring4.dto.reply.ReplyUpdateDto;
 import com.itwill.spring4.repository.BaseTimeEntity;
 import com.itwill.spring4.repository.post.Post;
 
@@ -29,6 +30,7 @@ import lombok.ToString;
 @SequenceGenerator(name = "REPLIES_SEQ_GEN", sequenceName = "REPLIES_SEQ1", allocationSize = 1)
 public class Reply extends BaseTimeEntity {
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPLIES_SEQ_GEN")
     private Long id; // Primary Key
@@ -42,4 +44,12 @@ public class Reply extends BaseTimeEntity {
     
     @Column(nullable = false)
     private String writer; // 댓글 작성자
+    
+    // 댓글 내용을 수정하고, 수정된 엔터티를 리턴하는 메서드:
+    public Reply update(String replyText) {
+        this.replyText = replyText;
+        
+        return this;
+    }
+    
 }
