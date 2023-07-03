@@ -5,13 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableMethodSecurity
@@ -28,6 +23,7 @@ public class SecurityConfig {
     }
     
     // 로그인할 때 사용할 임시 사용자(메모리에 임시 저장) 생성
+    /*
     @Bean
     public UserDetailsService inMemoryUserDeatailsService() {
         // 사용자 상세 정보
@@ -51,6 +47,7 @@ public class SecurityConfig {
             
             return new InMemoryUserDetailsManager(user1, user2, user3);
     }
+    */
     
     // Security Filter 설정 bean:
     // 로그인/로그아웃 설정 

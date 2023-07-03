@@ -22,7 +22,7 @@
                     <div class="my-2">
                         <label class="form-label" for="author">작성자</label>
                         <input class="form-control" id="author"
-                            type="text" name="author" required />
+                            type="text" name="author" th:value="${ #authentication.name }" />
                     </div>
                     <div class="my-2">
                         <input class="form-control btn btn-outline-success" 

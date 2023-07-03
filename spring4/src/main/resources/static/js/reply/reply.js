@@ -3,6 +3,11 @@
  * 댓글 검색, 등록, 수정, 삭제
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // 로그인한 사용자 이름
+    
+    const authName = document.querySelector('div#authName').innerText;
+    console.log(authName);
+    
     // 부트스트랩 Collapse 객체를 생성. 초기 상태는 화면에 보이지 않는 상태.
     const bsCollapse = new bootstrap.Collapse('div#replyToggleDiv', {toggle: false});
     
@@ -101,13 +106,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="d-none">${reply.id}</span>
                     <span class="fw-bold">${reply.writer}</span>
                 </div>
-                <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
+            `;
+           
+            // 로그인한 사용자와 댓글 작성자가 같을 때만 삭제, 수정 버튼을 보여줌 
+            if (authName === reply.writer) { 
+                htmlStr += `
+                 <textarea id="replyText_${reply.id}">${reply.replyText}</textarea>
                 <div>
                     <button class="btnDelete btn btn-outline-danger" data-id="${reply.id}">삭제</button>
                     <button class="btnModify btn btn-outline-primary" data-id="${reply.id}">수정</button>
                 </div>
-            </div>
-            `;
+                `;
+                }else {
+                    htmlStr += `
+                    <textarea id="replyText_${reply.id}" readonly>${reply.replyText}</textarea>
+                    `
+                }
+                
+                htmlStr += `</div>`;
             
         }
         // data-id 이 형태는 의미 없음. html에서 변수 이름을 선언하겠다는 뜻
@@ -159,8 +175,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const postId = document.querySelector('input#id').value;
       // 댓글 내용
       const replyText = document.querySelector('textarea#replyText').value;
-      // 작성자
-      const writer = 'admin';
+      // 작성자는 로그인한 사용자 아이디로 사용.
+      const writer = authName;
       
       // 댓글 내용이 비어 있으면 경고창을 보여주고 종료.
       if (replyText === '') {
